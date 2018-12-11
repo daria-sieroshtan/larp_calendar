@@ -68,10 +68,11 @@ class IftttHandlerTelegram
     public function createEventAnnouncement(Event $event)
     {
         $announcement =
-            sprintf("В Ролендарь добавлено новое событие: %s '%s' /\n/\n Организаторы: %s /\n",
+            sprintf("В Ролендарь добавлено новое событие: %s '%s'",
                 mb_strtolower($event->getType()->getName()),
-                $event->getName(),
-                $event->getOrganizers());
+                $event->getName());
+
+        $announcement = $announcement . PHP_EOL . 'Организаторы: ' . $event->getOrganizers() . PHP_EOL;
 
         if ($event->getStartDate()->format('Y-m-d') != $event->getEndDate()->format('Y-m-d')) {
             $announcement = $announcement .'Дата: ' . $event->getStartDate()->format('Y-m-d') . ' - ' . $event->getEndDate()->format('Y-m-d')  . PHP_EOL;
@@ -140,9 +141,9 @@ class IftttHandlerTelegram
     public function generateImageUrl(Event $event)
     {
         if ($event->getPicture()) {
-            $imgUrl = $this->request->getBaseUrl() . '/images/' . $event->getPicture();
+            $imgUrl = $this->request->headers->get('host') . '/images/pictures/' . $event->getPicture();
         } else {
-            $imgUrl = $this->request->getBaseUrl() . '/images/rolendar-1.jpg';
+            $imgUrl = $this->request->headers->get('host') . '/images/rolendar-1.jpg';
         }
         return $imgUrl;
     }

@@ -22,7 +22,7 @@ use App\Entity\Weapon;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 
-class EventFormType extends AbstractType
+class EventAdminFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -251,8 +251,6 @@ class EventFormType extends AbstractType
                 'required' => false,
                 'placeholder' => false
             ))
-
-            ->add('recaptcha', EWZRecaptchaType::class, array('label' => ' '))
 
             ->add(
                 'save',

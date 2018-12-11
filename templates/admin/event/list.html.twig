@@ -85,7 +85,9 @@
                                                     не указано
                                                 {% endif %}
                                             </li>
+                                            {% if  entity.region %}
                                             <li class="list-group-item"> <b> Область: </b> {{entity.region.name}} </li>
+                                            {% endif %}
                                             <li class="list-group-item">
                                                 <b> Размер денежного взноса от: </b>
                                                 {% if  entity.priceMin %}

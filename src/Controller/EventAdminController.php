@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
-use App\Form\EventFormType;
+use App\Form\EventAdminFormType;
 use App\Repository\EventRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +19,7 @@ class EventAdminController extends BaseController
     const ITEMS_PER_PAGE_ADMIN = 10;
 
     /**
+     * @Route("/admin", name="admin")
      * @Route("/admin/event/list", name="admin_list_events")
      * @Template("admin/event/list.html.twig")
      */
@@ -72,7 +73,7 @@ class EventAdminController extends BaseController
                 new File($this->getParameter('pictures_directory') . '/' . $event->getPicture())
             );
         }
-        $form = $this->createForm(EventFormType::class, $event);
+        $form = $this->createForm(EventAdminFormType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
