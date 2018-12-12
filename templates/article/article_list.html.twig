@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block content %}
-    {% if articles %}
-        <div class="col-11 justify-content-center ml-3">
+    <div class="col-11 justify-content-center ml-3">
+        {% if articles %}
             {% for article in articles %}
                 <div class="card my-2">
                     <h4 class="card-title p-2 brand-txt">
@@ -22,10 +22,9 @@
                     </div>
                 </div>
             {% endfor %}
-
             {{ include('pagination.html.twig', { 'pageCount' : pageCount, 'page' : page }) }}
-        </div>
-    {% else %}
-        Сейчас в этом разделе ничего нет.
-    {% endif %}
+        {% else %}
+            Сейчас в этом разделе ничего нет.
+        {% endif %}
+    </div>
 {% endblock %}
