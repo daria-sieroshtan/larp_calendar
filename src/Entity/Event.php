@@ -183,9 +183,6 @@ class Event extends News
      */
     private $token;
 
-    /**
-     * @Recaptcha\IsTrue
-     */
     public $recaptcha;
 
     public function __construct()
