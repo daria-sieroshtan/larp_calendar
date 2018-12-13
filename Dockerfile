@@ -10,6 +10,9 @@ RUN cp /var/www/rolendar/larp.conf /etc/apache2/sites-available && \
     a2ensite larp && \
     a2enmod rewrite && \
     composer install && \
-    chown -R www-data:www-data /var/www/rolendar
+    chown -R www-data:www-data /var/www/rolendar && \
+    chmod +x /var/www/rolendar/entrypoint.sh
+
+ENTRYPOINT ["/var/www/rolendar/entrypoint.sh"]
 
 CMD /bin/bash
