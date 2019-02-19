@@ -70,6 +70,16 @@ legend.required:after {
     white-space: normal;
 }
 
+.nobull {
+    list-style-type: none;
+}
+
+.form-li {
+    display:inline-block;
+    margin:0;
+    padding: 0;
+}
+
 svg {
     font: 10px Helvetica;
     shape-rendering: crispEdges;

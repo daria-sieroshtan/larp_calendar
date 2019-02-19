@@ -24,7 +24,7 @@ class Genre
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Subgenre", mappedBy="genre")
+     * @ORM\OneToMany(targetEntity="App\Entity\Subgenre", mappedBy="genre", cascade={"persist"})
      */
     private $subgenres;
 

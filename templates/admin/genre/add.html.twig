@@ -3,5 +3,18 @@
 {%block heading %}Создать новый жанр{% endblock %}
 
 {% block content %}
-    {{ include('forms/form.html.twig')}}   
+    <div class="row py-3" >
+        <div class="col-4" >
+            {{ form_start(form) }}
+            {{ form_row(form.name) }}
+            <h3>Поджанры</h3>
+            <ul class="subgenres nobull form-li justify-content-end" data-prototype="{{ form_widget(form.subgenres.vars.prototype.name)|e('html_attr') }}"></ul>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/js/add_genre_script.js"></script>
 {% endblock %}
