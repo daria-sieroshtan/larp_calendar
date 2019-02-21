@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Genre;
+use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -54,5 +55,53 @@ class GenreRepository extends AdminEntityRepository
             $this->createQueryBuilder('genre')
             ->innerJoin('genre.subgenres', 'subgenre')
             ->innerJoin('subgenre.events', 'event');
+    }
+
+    public function getDynamicFilterOptions($params)
+    {
+        $qb = $this->setDynamicCriteria($params);
+
+        return $qb
+            ->select('genre.name', 'genre.id')
+                ->groupby('genre.name','genre.id')
+                ->getQuery()
+                ->getArrayResult();
+    }
+
+    public function setDynamicCriteria($params)
+    {
+        $qb = $this->createQueryBuilder('genre')
+            ->innerJoin('genre.subgenres', 'subgenre')
+            ->innerJoin('subgenre.events', 'event');
+
+        if (count($params['type'])>0) {
+            $entityList = [];
+            foreach ($params['type'] as $entity) {
+                $entityList[] = $entity;
+            }
+            $qb->andWhere($qb->expr()->in('event.type', $entityList));
+        }
+
+        if (count($params['subgenre'])>0) {
+            $entityList = [];
+            foreach ($params['subgenre'] as $entity) {
+                $entityList[] = $entity;
+            }
+            $qb->andWhere($qb->expr()->in('event.subgenre', $entityList));
+        }
+
+        $qb
+            ->andWhere('event.startDate >= :start')
+            ->andWhere('event.startDate <= :end')
+            ->andWhere('event.status = :status')
+            ->setParameters(
+                [
+                    'start'=> $params['periodStart'],
+                    'end'=> $params['periodEnd'],
+                    'status' => Event::STATUS_APPROVED,
+                ]
+            );
+
+        return $qb;
     }
 }

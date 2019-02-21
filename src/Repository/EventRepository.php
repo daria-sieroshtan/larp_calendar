@@ -259,4 +259,126 @@ class EventRepository extends ServiceEntityRepository
 
         return $qb;
     }
+
+    /**
+     * @param $limit
+     * @param $offset
+     * @param $params
+     */
+    public function findListByDynamicCriterias($params)
+    {
+        $qb = $this->setDynamicCriterias($params);
+
+        return $qb
+            ->orderBy('event.startDate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function setDynamicCriterias($params)
+    {
+        $qb = $this->createQueryBuilder('event')
+            ->innerJoin('event.subgenre', 'subgenre')
+            ->innerJoin('subgenre.genre', 'genre')
+            ->leftJoin('event.weapons', 'weapon');
+
+        if (count($params['type'])>0) {
+            $entityList = [];
+            foreach ($params['type'] as $entity) {
+                $entityList[] = $entity;
+            }
+            $qb->andWhere($qb->expr()->in('event.type', $entityList));
+        }
+
+
+        if (count($params['genre'])>0) {
+            $entityList = [];
+            foreach ($params['genre'] as $entity) {
+                $entityList[] = $entity;
+            }
+            $qb->andWhere($qb->expr()->in('genre', $entityList));
+        }
+
+        if (count($params['subgenre'])>0) {
+            $entityList = [];
+            foreach ($params['subgenre'] as $entity) {
+                $entityList[] = $entity;
+            }
+            $qb->andWhere($qb->expr()->in('event.subgenre', $entityList));
+        }
+
+        $qb
+            ->andWhere('event.startDate >= :start')
+            ->andWhere('event.startDate <= :end')
+            ->andWhere('event.status = :status')
+            ->setParameters(
+                [
+                    'start'=> $params['periodStart'],
+                    'end'=> $params['periodEnd'],
+                    'status' => Event::STATUS_APPROVED,
+                ]
+            );
+
+        return $qb;
+    }
+
+    public function getMinDate($params)
+    {
+        $qb = $this->setDynamicCriteriaDate($params);
+
+        return $qb
+            ->select('min(event.endDate)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+
+    public function getMaxDate($params)
+    {
+        $qb = $this->setDynamicCriteriaDate($params);
+
+        return $qb
+            ->select('max(event.endDate)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function setDynamicCriteriaDate($params)
+    {
+        $qb = $this->createQueryBuilder('event')
+            ->innerJoin('event.subgenre', 'subgenre')
+            ->innerJoin('subgenre.genre', 'genre');
+
+        if (count($params['type'])>0) {
+            $entityList = [];
+            foreach ($params['type'] as $entity) {
+                $entityList[] = $entity;
+            }
+            $qb->andWhere($qb->expr()->in('event.type', $entityList));
+        }
+
+
+        if (count($params['genre'])>0) {
+            $entityList = [];
+            foreach ($params['genre'] as $entity) {
+                $entityList[] = $entity;
+            }
+            $qb->andWhere($qb->expr()->in('genre', $entityList));
+        }
+
+        if (count($params['subgenre'])>0) {
+            $entityList = [];
+            foreach ($params['subgenre'] as $entity) {
+                $entityList[] = $entity;
+            }
+            $qb->andWhere($qb->expr()->in('event.subgenre', $entityList));
+        }
+
+        $qb
+
+            ->andWhere('event.status = :status')
+            ->setParameter('status', Event::STATUS_APPROVED);
+
+        return $qb;
+    }
 }
