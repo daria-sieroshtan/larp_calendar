@@ -215,4 +215,37 @@ class EventController extends BaseController
         Пожалуйста, будьте осторожны: распространение этой ссылки позволит другим также редактировать вашу информацию.');
         return ['form' => $form->createView()];
     }
+
+    /**
+     * @Route("/events/{id}",
+     * name="show_event_rest",
+     * methods={"GET"},
+     * requirements={
+     *     "id"="\d+",
+     *  "_format": "json"
+     * },
+     * )
+     */
+    public function showEventRest(Event $event)
+    {
+        return new Response(json_encode($event->getDescription()));
+
+    }
+
+    /**
+     * @Route("/events/{id}",
+     * name="delete_event_rest",
+     * methods={"DELETE"},
+     * requirements={
+     *     "id"="\d+",
+     *  "_format": "json"
+     * },
+     * )
+     */
+    public function deleteEventRest(Event $event)
+    {
+        $this->removeEntity($event);
+        return new Response();
+
+    }
 }

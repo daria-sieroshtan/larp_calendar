@@ -9,7 +9,7 @@
 {% block page_heading %}
     <div class="row " >
         <div class="col-11 justify-content-center ml-3">
-        <h2 class="sub-header  brand-txt">{% block heading %}  Укажите критерии поиска  {% endblock %}</h2>
+        <h2 class="sub-header  brand-txt" id='flash-here'>{% block heading %}  Укажите критерии поиска  {% endblock %}</h2>
         </div>
     </div>
 {% endblock %}
@@ -87,18 +87,10 @@
                     <div class="col-4">
                         <div class="card my-2">
                             <h4 class="card-title p-2 brand-txt">
-                                {{event.name}} <br>
+                                <a tabindex="0" class="brand-txt pop-over" role="button" data-toggle="popover" data-trigger="focus" data-id="{{ event.id }}"> {{event.name}} </a> <br>
                                 <span class="h5 text-muted"> {{event.startDate|date("d/m/Y")}}-{{event.endDate|date("d/m/Y")}} </span>
-                                <span class="badge badge-light badge-pill float-right p-2 brand-txt badge-wrap"> {{ event.type.name }} </span>
+                                <a class="btn btn-primary brand-bg align-self-end mb-2 text-light delete-entity" data-id="{{ event.id }}">Delete</a>
                             </h4>
-                            <div class="card-body px-1 py-0 d-flex flex-column">
-                                <p class="card-text m-2">
-                                    {% autoescape false %}
-                                        {{ event.description | striptags('<br><p>') | cut }}
-                                    {% endautoescape %}
-                                </p>
-                                <a href="{{ path('show_event_by_slug', {'slug': event.slug}) }}" class="btn btn-primary brand-bg align-self-end mb-2">Подробнее</a>
-                            </div>
                         </div>
                     </div>
                 {% endfor %}
