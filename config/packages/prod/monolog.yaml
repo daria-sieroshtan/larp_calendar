@@ -22,3 +22,9 @@ monolog:
             level:      debug
             formatter:  monolog.formatter.html
             content_type: text/html
+        doctrine:
+            level:    info
+            type:     stream
+            path:     '%kernel.logs_dir%/doctrine.log'
+            channels: [doctrine]
+
