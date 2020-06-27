@@ -6,7 +6,7 @@
     {{ form_start(form) }}
         {{ form_errors(form) }}
         <div class="row py-3" >
-            <div class="col-6" >
+            <div class="col col-lg-6" >
                 {{ form_row(form.name) }}
                 {{ form_row(form.type) }}
                 {{ form_row(form.startDate) }}
@@ -33,8 +33,13 @@
         </div>
         <div class="row py-3" >
             <div class="col" >
-                <h5> <input type="checkbox" id="mixDeskChecker" value="0"> Я хочу заполнить "эквалайзер" </h5>
-                <a href="{{ path('mixDesk_guide') }}"> Описание</a>
+                <h5>
+                    <input type="checkbox" id="mixDeskChecker" value="0">
+                    <label for="mixDeskChecker">
+                        Я хочу заполнить "эквалайзер"
+                    </label>
+                </h5>
+                <a href="{{ path('mixDesk_guide') }}" target="_blank"> Описание</a>
                 <div id="mixDesk" style="display:none">
                     <hr/>
                     <h5> {{ constant('App\\Form\\MixDesk::RuntimeGM').title }}</h5>

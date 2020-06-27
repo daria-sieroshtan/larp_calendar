@@ -3,7 +3,7 @@
 {% block heading %} Новое на сайте {% endblock %}
 
 {% block content %}
-    <div class="row " >
+    <div class="news-cards" >
         {% for post in posts if posts%}
             {{ include('news_card.html.twig', { 'post' : post }) }}
         {% endfor %}

@@ -1,37 +1,41 @@
-<div class="col-6">
-    <div class="card my-2">
-        <h4 class="card-header text-left bg-white brand-txt">{{post.name}}
-            <span class="badge badge-light badge-pill float-right brand-txt">
-                {% if constant('NEWS_TYPE', post) == 'event' %}
-                    анонс
-                {% else %}
-                    {{  post.category }}
-                {% endif %}
-            </span>
+<article class="news-card">
+    <header class="news-card__header">
+        <h4 class="news-card__title">
+            {{post.name}}
         </h4>
-        <div class="row no-gutters">
-            <div class="col">
-                <div class="card-body px-2 ">
-                    {%  if post.picture %}
-                        <img class="img-fluid float-left event-img my-2 ml-2 mr-3" src="{{ asset( 'images/pictures/' ~ post.picture) }}" alt="{{ post.name }}">
-                    {% else %}
-                        <img class="img-fluid float-left event-img my-2 ml-2 mr-3"  src="{{ asset("images/rolendar-1.jpg") }}" alt="{{ post.name }}">
-                    {% endif %}
-                    <p class="card-text m-2">
-                        {% autoescape false %}
-                            {{ post.description | striptags('<br><p>') | cut }}
-                        {% endautoescape %}
-                    </p>
-                    {% if constant('NEWS_TYPE', post) == 'event' %}
-                        <a href="{{ path('show_event_by_slug', {'slug': post.slug}) }}" class="btn btn-primary brand-bg align-self-end float-right mb-3">Подробнее</a>
-                    {% else %}
-                        <a href="{{ path('show_article_by_slug', {'slug': post.slug}) }}" class="btn btn-primary brand-bg align-self-end float-right mb-3">Подробнее</a>
-                    {% endif %}
-                </div>
-            </div>
+        <div class="news-card__badge">
+            {% if constant('NEWS_TYPE', post) == 'event' %}
+                анонс
+            {% else %}
+                {{  post.category }}
+            {% endif %}
         </div>
-        <div class="card-footer text-muted bg-white">
+    </header>
+    <section class="news-card__body">
+        <div class="news-card__thumb">
+            {%  if post.picture %}
+                {% set imgSrc = asset( 'images/pictures/' ~ post.picture) %}
+            {% else %}
+                {% set imgSrc = asset("images/rolendar-1.jpg") %}
+            {% endif %}
+            <img class="news-card__image" src="{{ imgSrc }}" alt="{{ post.name }}">
+        </div>
+        <div class="news-card__intro">
+            {% autoescape false %}
+                {{ post.description | striptags('<br><p>') | cut }}
+            {% endautoescape %}
+        </div>
+    </section>
+    <footer class="news-card__footer">
+        <time class="news-card__date">
             Опубликовано: {{ post.publishDate|date("d/m/Y") }}
-        </div>
-    </div>
-</div>
+        </time>
+        {% if constant('NEWS_TYPE', post) == 'event' %}
+            {% set href = path('show_event_by_slug', {'slug': post.slug}) %}
+        {% else %}
+            {% set href = path('show_article_by_slug', {'slug': post.slug}) %}
+        {% endif %}
+
+        <a href="{{ href }}" class="news-card__btn  btn btn-primary brand-bg">Подробнее</a>
+    </footer>
+</article>

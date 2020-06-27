@@ -9,79 +9,82 @@
 {% endblock %}
 
 {% block content %}
-
-    <div class="col-11 justify-content-center ml-3 mt-2" >
-        {{ form_start(form) }}
-        {{ form_errors(form) }}
-        <div class="card-columns">
-            <div class="card pt-2 px-2">
-                {% for year in years if years %}
-                    <button type="button" class="btn btn-primary mb-3 mt-1.5 mr-1 year-choice" data-year="{{year}}">
-                        {{ year }}
-                    </button>
-                {%  endfor %}
-                <h6>Период</h6>
-                {{ form_row(form.periodStart) }}
-                {{ form_row(form.periodEnd) }}
+    <div class="row">
+        <div class="col-12 justify-content-center" >
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+            <div class="card-columns">
+                <div class="card pt-2 px-2">
+                    {% for year in years if years %}
+                        <button type="button" class="btn btn-primary mb-3 mt-1.5 mr-1 year-choice" data-year="{{year}}">
+                            {{ year }}
+                        </button>
+                    {%  endfor %}
+                    <h6>Период</h6>
+                    {{ form_row(form.periodStart) }}
+                    {{ form_row(form.periodEnd) }}
+                </div>
+                <div class="card pt-2 px-2">
+                    {{ form_row(form.keywords) }}
+                </div>
+                <div class="card pt-2 px-2">
+                    {{ form_row(form.type) }}
+                </div>
+                <div class="card pt-2 px-2">
+                    {{ form_row(form.region) }}
+                </div>
+                <div class="card pt-2 px-2">
+                    {{ form_row(form.genre) }}
+                </div>
+                <div class="card pt-2 px-2">
+                    {{ form_row(form.subgenre) }}
+                </div>
+                <div class="card pt-2 px-2">
+                    {{ form_row(form.settlement) }}
+                </div>
+                <div class="card pt-2 px-2">
+                    {{ form_row(form.weapons) }}
+                </div>
+                <div class="card pt-2 px-2">
+                    {{ form_row(form.priceMax) }}
+                </div>
             </div>
-            <div class="card pt-2 px-2">
-                {{ form_row(form.keywords) }}
-            </div>
-            <div class="card pt-2 px-2">
-                {{ form_row(form.type) }}
-            </div>
-            <div class="card pt-2 px-2">
-                {{ form_row(form.region) }}
-            </div>
-            <div class="card pt-2 px-2">
-                {{ form_row(form.genre) }}
-            </div>
-            <div class="card pt-2 px-2">
-                {{ form_row(form.subgenre) }}
-            </div>
-            <div class="card pt-2 px-2">
-                {{ form_row(form.settlement) }}
-            </div>
-            <div class="card pt-2 px-2">
-                {{ form_row(form.weapons) }}
-            </div>
-            <div class="card pt-2 px-2">
-                {{ form_row(form.priceMax) }}
-            </div>
+            <a href="{{ path('search_events') }}" class="btn btn-rounded btn-primary float-right" >  Сбросить критерии</a>
+            {{ form_row(form.search) }}
+            {{ form_end(form) }}
         </div>
-        <a href="{{ path('search_events') }}" class="btn btn-rounded btn-primary float-right" >  Сбросить критерии</a>
-        {{ form_row(form.search) }}
-        {{ form_end(form) }}
-    </div>
 
-    <hr/>
-    {% if showResult %}
-        {% if events %}
-            <div class="row">
-                {% for event in events %}
-                    <div class="col-4">
-                        <div class="card my-2">
-                            <h4 class="card-title p-2 brand-txt">
-                                {{event.name}} <br>
-                                <span class="h5 text-muted"> {{event.startDate|date("d/m/Y")}}-{{event.endDate|date("d/m/Y")}} </span>
-                                <span class="badge badge-light badge-pill float-right p-2 brand-txt badge-wrap"> {{ event.type.name }} </span>
-                            </h4>
-                            <div class="card-body px-1 py-0 d-flex flex-column">
-                                <p class="card-text m-2">
-                                    {% autoescape false %}
-                                        {{ event.description | striptags('<br><p>') | cut }}
-                                    {% endautoescape %}
-                                </p>
-                                <a href="{{ path('show_event_by_slug', {'slug': event.slug}) }}" class="btn btn-primary brand-bg align-self-end mb-2">Подробнее</a>
+        <div class="col-12">
+            <hr/>
+            {% if showResult %}
+                {% if events %}
+                    <div class="row">
+                        {% for event in events %}
+                            <div class="col-4">
+                                <div class="card my-2">
+                                    <h4 class="card-title p-2 brand-txt">
+                                        {{event.name}} <br>
+                                        <span class="h5 text-muted"> {{event.startDate|date("d/m/Y")}}-{{event.endDate|date("d/m/Y")}} </span>
+                                        <span class="badge badge-light badge-pill float-right p-2 brand-txt badge-wrap"> {{ event.type.name }} </span>
+                                    </h4>
+                                    <div class="card-body px-1 py-0 d-flex flex-column">
+                                        <p class="card-text m-2">
+                                            {% autoescape false %}
+                                                {{ event.description | striptags('<br><p>') | cut }}
+                                            {% endautoescape %}
+                                        </p>
+                                        <a href="{{ path('show_event_by_slug', {'slug': event.slug}) }}" class="btn btn-primary brand-bg align-self-end mb-2">Подробнее</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
-            </div>
+                {% endif %}
             {% else %}
                 По заданным критериям ничего не найдено.
-        {% endif %}
-    {% endif %}
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}

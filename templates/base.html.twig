@@ -3,121 +3,143 @@
     <head>
         {% block head %}
             <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5">
             <title>{% block title %} Ролендарь {% endblock %}</title>
             <link rel="icon" href="/images/favicon-rolendar.png" type="image/x-icon" sizes="16x16">
 
             {% block stylesheets %}
                 {#bootstrap#}
-                {#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">#}
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
                 {#Font Awesome#}
                 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
                 {#custom css#}
                 <link rel="stylesheet" href="/css/style.css">
+                <link rel="stylesheet" href="/css/all.css">
             {% endblock %}
         {% endblock %}
     </head>
 
     <body>
         {% block body %}
-            <div class="container-fluid">
+            <div class="main-wrapper">
                 {% block navbar %}
-                    <nav class="navbar navbar-light bg-white fixed-top">
-                        <em class=" h1 header ml-3 pb-1 brand-txt">
-                            Ролендарь
-                            <span class="h4 "> календарь украинских ролевых событий </span>
-                        </em>
-                        <ul class="navbar nav navbar-light justify-content-end" >
-                            <li class="nav-item active">
-                                <a class="nav-link text-dark" href="{{ path('home') }}">Новости</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Игры</a>
-                                <div class="dropdown-menu ">
-                                    <a class="dropdown-item " href="{{ path('list_events') }}">Предстоящие</a>
-                                    <a class="dropdown-item " href="{{ path('calendar') }}">Календарь</a>
-                                    <a class="dropdown-item" href="{{ path('search_events') }}">Выбрать игру</a>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="{{ path('new_event') }}">Добавить игру</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Статьи и обзоры</a>
-                                <div class="dropdown-menu ">
-                                    <a class="dropdown-item " href="{{ path('list_articles') }}">Статьи</a>
-                                    <a class="dropdown-item " href="{{ path('list_overviews') }}">Обзоры</a>
-                                    <a class="dropdown-item" href="{{ path('mixDesk_guide') }}">Об эквалайзере</a>
-                                    <a class="dropdown-item" href="{{ path('genres_guide') }}">О классификации игр</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Полезные ссылки</a>
-                                <div class="dropdown-menu ">
-                                    <a class="dropdown-item" href="https://docs.google.com/spreadsheets/d/13Od15EjnajMxsgw2WxvENrCsenBr-qDAJaPmlCCKmAc/pubhtml?wmode=transparent">Каптерка</a>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="{{ path('contacts') }}">О проекте и контакты</a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <hr/>
+                    <header class="main-wrapper__header">
+                        <div class="header-logo">
+                            <div class="header-logo__main">Ролендарь</div>
+                            <p class="header-logo__slogan">календарь украинских ролевых событий</p>
+                        </div>
+
+                        <nav class="main-menu">
+                            <button class="main-menu__toggle" type="button" data-click="toggle-main-menu" title="Открыть меню"></button>
+                            <ul class="main-menu__list">
+                                <li class="main-menu__item">
+                                    <a class="main-menu__link" href="{{ path('home') }}">Новости</a>
+                                </li>
+                                <li class="main-menu__item dropdown">
+                                    <a class="main-menu__link  dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                        Игры
+                                    </a>
+                                    <div class="dropdown-menu ">
+                                        <a class="main-menu__link" href="{{ path('list_events') }}">Предстоящие</a>
+                                        <a class="main-menu__link" href="{{ path('calendar') }}">Календарь</a>
+                                        <a class="main-menu__link" href="{{ path('search_events') }}">Выбрать игру</a>
+                                    </div>
+                                </li>
+                                <li class="main-menu__item">
+                                    <a class="main-menu__link" href="{{ path('new_event') }}">Добавить игру</a>
+                                </li>
+                                <li class="main-menu__item dropdown">
+                                    <a class="main-menu__link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                        Статьи и обзоры
+                                    </a>
+                                    <div class="dropdown-menu ">
+                                        <a class="main-menu__link" href="{{ path('list_articles') }}">Статьи</a>
+                                        <a class="main-menu__link" href="{{ path('list_overviews') }}">Обзоры</a>
+                                        <a class="main-menu__link" href="{{ path('mixDesk_guide') }}">Об эквалайзере</a>
+                                        <a class="main-menu__link" href="{{ path('genres_guide') }}">О классификации игр</a>
+                                    </div>
+                                </li>
+                                <li class="main-menu__item dropdown">
+                                    <a class="main-menu__link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                        Полезные ссылки
+                                    </a>
+                                    <div class="dropdown-menu ">
+                                        <a class="main-menu__link" href="https://docs.google.com/spreadsheets/d/13Od15EjnajMxsgw2WxvENrCsenBr-qDAJaPmlCCKmAc/pubhtml?wmode=transparent" target="_blank">
+                                            Каптерка
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="main-menu__item">
+                                    <a class="main-menu__link" href="{{ path('contacts') }}">О проекте и контакты</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </header>
                 {% endblock %}
 
-                {% block flashes %}
-                    {% for message in app.flashes('danger') %}
-                        <div class="alert alert-danger alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            {{ message | raw}}
-                        </div>
-                    {% endfor %}
-                    {% for message in app.flashes('notice') %}
-                        <div class="alert alert-warning alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            {{ message | raw}}
-                        </div>
-                    {% endfor %}
-                    {% for message in app.flashes('success') %}
-                        <div class="alert alert-success alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            {{ message | raw}}
-                        </div>
-                    {% endfor %}
-                {% endblock %}
+                <main class="main-wrapper__content">
+                    {% block flashes %}
+                        {% for message in app.flashes('danger') %}
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                {{ message | raw}}
+                            </div>
+                        {% endfor %}
+                        {% for message in app.flashes('notice') %}
+                            <div class="alert alert-warning alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                {{ message | raw}}
+                            </div>
+                        {% endfor %}
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                {{ message | raw}}
+                            </div>
+                        {% endfor %}
+                    {% endblock %}
 
-                {% block page_heading %}
-                    <div class="row " >
-                        <h2 class="sub-header text-center brand-txt">{% block heading %}{% endblock %}</h2>
-                    </div>
-                {% endblock %}
+                    {% block page_heading %}
+                        <div class="row " >
+                            <h2 class="sub-header text-center brand-txt">{% block heading %}{% endblock %}</h2>
+                        </div>
+                    {% endblock %}
 
-                {% block content %}
-                {% endblock %}
+                    {% block content %}
+                    {% endblock %}
+                </main>
 
                 {% block footer %}
-                    <footer class="page-footer fixed-bottom font-small bg-white brand-txt">
-                        <div class="footer-copyright text-center pb-3">
-                            <hr/>
-                            Ролендарь в соцсетях:
-                            <a href="https://www.facebook.com/rolendar/"> <span class="fa fa-facebook-square brand-txt mx-2" ></span>  </a>
-                            <a href="https://vk.com/rolendar"> <span class="fa fa-vk brand-txt mx-2" ></span>  </a>
-                            <a href="https://t.me/rolendar"> <span class="fa fa-telegram brand-txt mx-2" ></span>  </a>
-
-                        </div>
+                    <footer class="main-wrapper__footer">
+                        Ролендарь в соцсетях:
+                        <a class="footer-link" href="https://www.facebook.com/rolendar/" title="Ролендарь в Facebook" target="_blank">
+                            <span class="fa fa-facebook-square brand-txt mx-2" ></span>
+                        </a>
+                        <a class="footer-link" href="https://vk.com/rolendar" title="Ролендарь в Vkontakte" target="_blank">
+                            <span class="fa fa-vk brand-txt mx-2" ></span>
+                        </a>
+                        <a class="footer-link" href="https://t.me/rolendar" title="Ролендарь в Telegram" target="_blank">
+                            <span class="fa fa-telegram brand-txt mx-2" ></span>
+                        </a>
                     </footer>
                 {% endblock %}
-
-                {% block javascripts %}
-                    {#external libraries#}
-                    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-                    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-                    {#custom script#}
-                    <script src="/js/add_picture_fix_script.js"></script>
-                {% endblock %}
             </div>
+        {% endblock %}
+
+        {% block javascripts %}
+            {#external libraries#}
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+            <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+            {#custom script#}
+            <script src="/js/add_picture_fix_script.js"></script>
+
+            <script>
+              $('[data-click="toggle-main-menu"]').on('click', function() {
+                $('.main-menu').toggleClass('main-menu--opened');
+              });
+            </script>
         {% endblock %}
     </body>
 </html>
