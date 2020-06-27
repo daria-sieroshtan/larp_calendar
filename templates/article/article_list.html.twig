@@ -2,14 +2,12 @@
 
 {% block page_heading %}
     <div class="row " >
-        <div class="col-11 justify-content-center ml-3">
-            <h2 class="sub-header  brand-txt">{% block heading %}  Статьи  {% endblock %}</h2>
-        </div>
+        <h2 class="sub-header  brand-txt">{% block heading %}  Статьи  {% endblock %}</h2>
     </div>
 {% endblock %}
 
 {% block content %}
-    <div class="col-11 justify-content-center ml-3">
+    <div class="">
         {% if articles %}
             {% for article in articles %}
                 <div class="card my-2">
