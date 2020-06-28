@@ -7,9 +7,9 @@
 {% endblock %}
 
 {% block content %}
-    {% if events %}
+    {% if pagination %}
         <div class="event-list" id="accordion_" >
-            {% for event in events %}
+            {% for event in pagination %}
                 <section class="event-list-item">
                     <header class="event-list-item__header">
                         <h4 class="event-list-item__name  collapsed"  data-toggle="collapse" data-target="#collapse_{{ event.id }}" aria-expanded="false" aria-controls="collapse_{{ event.id }}">
@@ -42,7 +42,10 @@
             {% endfor %}
         </div>
 
-        {{ include('pagination.html.twig', { 'pageCount' : pageCount, 'page' : page }) }}
+        <div class="navigation float-right mt-5">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
     {% else %}
         Сейчас в этом разделе ничего нет.
     {% endif %}
