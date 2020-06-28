@@ -11,6 +11,7 @@ parameters:
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     google_recaptcha_secret: '%env(GOOGLE_RECAPTCHA_SECRET)%'
     ifttt_telegram_key: '%env(IFTTT_TELEGRAM_KEY)%'
+    routing.page: '^[1-9]\d*$'
 
 services:
     # default configuration for services in *this* file

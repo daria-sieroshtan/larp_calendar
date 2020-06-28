@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use App\Service\FileUploader;
+use Knp\Component\Pager\PaginatorInterface;
 
 class EventController extends BaseController
 {
@@ -33,21 +34,20 @@ class EventController extends BaseController
 
 
     /**
-     * @Route("/event/list", name="list_events")
+     * @Route("/event/list/{page}/",
+     *      name="list_events",
+     *     defaults={"page"=1},
+     *     requirements={"page"="%routing.page%"}
+     *     )
      * @Template("event/event_list.html.twig")
      */
-    public function listEvent(Request $request, EventRepository $eventRepository)
+    public function listEvent(Request $request, EventRepository $eventRepository, PaginatorInterface $paginator, $page)
     {
-        $page = $request->query->get('page', 1);
-        $offset = ($page-1)*self::ITEMS_PER_PAGE;
-
-        $countItems = $eventRepository->countFutureItems();
+        $pagination = $paginator->paginate($eventRepository->findListForPagination(), $page, self::ITEMS_PER_PAGE);
 
         return
             [
-                'events' => $eventRepository->findList(self::ITEMS_PER_PAGE, $offset),
-                'page' => $page,
-                'pageCount' => ceil($countItems / self::ITEMS_PER_PAGE)
+                'pagination' => $pagination,
             ];
     }
 
