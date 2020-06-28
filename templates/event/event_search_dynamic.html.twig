@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.default.css">
+
+{% endblock %}
+
+{% block page_heading %}
+    <div class="row " >
+        <div class="col-11 justify-content-center ml-3">
+        <h2 class="sub-header  brand-txt" id='flash-here'>{% block heading %}  Укажите критерии поиска  {% endblock %}</h2>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-11 justify-content-center ml-3 mt-2" >
+            <form>
+                <div class="card-columns">
+                    <div class="card pt-2 px-2">
+                        <h6>Период</h6>
+                        С
+                        <input class="mb-3 ml-3" type="date" name="periodStart" value="{{ params.periodStart }}" min="{{ start }}" max="{{ end }}">
+                        по
+                        <input class="mb-3 mx-3" type="date" name="periodEnd" value="{{ params.periodEnd }}" min="{{ start }}" max="{{ end }}">
+                    </div>
+
+                    <div class="card pt-2 px-2">
+                        <h6>Формат</h6>
+                        {% for type in typeOptions %}
+                            <input type="checkbox" id='select-type' name="type[]" value="{{ type.id }}"
+                                    {%  if type.id in params.type %}
+                                        checked
+                                    {% endif %}
+                            > {{ type.name }}<br>
+                        {%  endfor %}
+
+                    </div>
+
+                    <div class="card pt-2 px-2">
+                        <h6>Жанр</h6>
+                        {% for genre in genreOptions %}
+                            <input type="checkbox" id='select-genre' name="genre[]" value="{{ genre.id }}"
+                                    {%  if genre.id in params.genre %}
+                                        checked
+                                    {% endif %}
+                            > {{ genre.name }}<br>
+                        {%  endfor %}
+                    </div>
+                    <div class="card pt-2 px-2">
+                        <h6>Поджанр</h6>
+                        <select class="mb-3 ml-3" id='select-subgenre' name="subgenre[]" size="10" multiple>
+                            {% for subgenre in subgenreOptions %}
+                                <option value="{{ subgenre.id }}"
+                                        {%  if subgenre.id in params.subgenre %}
+                                            selected
+                                        {% endif %}
+                                >{{ subgenre.name }}</option>
+                            {%  endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <input type="submit" value="Поиск" class="btn btn-rounded btn-primary float-right mx-3">
+                    <a href="{{ path('search_events_dynamic') }}" class="btn btn-rounded btn-dark float-right" >  Сбросить критерии</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col">
+            <hr/>
+        </div>
+        </div>
+
+
+    {% if showResult %}
+        {% if events %}
+            <div class="row">
+                {% for event in events %}
+                    <div class="col-4">
+                        <div class="card my-2">
+                            <h4 class="card-title p-2 brand-txt">
+                                <a tabindex="0" class="brand-txt pop-over" role="button" data-toggle="popover" data-trigger="focus" data-id="{{ event.id }}"> {{event.name}} </a> <br>
+                                <span class="h5 text-muted"> {{event.startDate|date("d/m/Y")}}-{{event.endDate|date("d/m/Y")}} </span>
+                                <a class="btn btn-primary brand-bg align-self-end mb-2 text-light delete-entity" data-id="{{ event.id }}">Delete</a>
+                            </h4>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% else %}
+                По заданным критериям ничего не найдено.
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.js"></script>
+    <script src="/js/search_dynamic_event_script.js"></script>
+{% endblock %}
+
+

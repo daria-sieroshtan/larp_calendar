@@ -5,6 +5,9 @@ use App\Entity\Event;
 use App\Form\EventFormType;
 use App\Form\EventSearchFormType;
 use App\Repository\EventRepository;
+use App\Repository\EventTypeRepository;
+use App\Repository\GenreRepository;
+use App\Repository\SubgenreRepository;
 use App\Service\AdminNotificationMailer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,6 +81,37 @@ class EventController extends BaseController
                 'form' => $form->createView(),
                 'years' => $years,
                 'showResult' => false,
+            ];
+    }
+
+    /**
+     * @Route("/event/search-dynamic", name="search_events_dynamic")
+     * @Template("event/event_search_dynamic.html.twig")
+     */
+    public function dynamicSearchEvent(Request $request, EventRepository $eventRepository, EventTypeRepository $typeRepository, GenreRepository $genreRepository, SubgenreRepository $subgenreRepository)
+    {
+        $params = $request->query->all();
+//        no validatation on relevant params, just on presence
+        $showResult = boolval(count($params)>0);
+//        no validation params on format, period sanity
+        $params['type'] = $params['type'] ?? [];
+        $params['genre'] = $params['genre'] ?? [];
+        $params['subgenre'] = $params['subgenre'] ?? [];
+        $params['periodStart'] = $params['periodStart'] ?? substr($eventRepository->getMinDate($params),0,10);
+        $params['periodEnd'] = $params['periodEnd'] ?? substr($eventRepository->getMaxDate($params),0,10);
+
+        $start = substr($eventRepository->getMinDate($params),0,10);
+        $end = substr($eventRepository->getMaxDate($params),0,10);
+
+            return [
+                'typeOptions' => $typeRepository->getDynamicFilterOptions($params),
+                'genreOptions' => $genreRepository->getDynamicFilterOptions($params),
+                'subgenreOptions' => $subgenreRepository->getDynamicFilterOptions($params),
+                'start' => $start,
+                'end' => $end,
+                'events' => $eventRepository->findListByDynamicCriterias($params),
+                'params' => $params,
+                'showResult' => $showResult,
             ];
     }
 
@@ -180,5 +214,38 @@ class EventController extends BaseController
         $this->addNoticeFlash('Вы редактируете ранее созданное событие.<br>
         Пожалуйста, будьте осторожны: распространение этой ссылки позволит другим также редактировать вашу информацию.');
         return ['form' => $form->createView()];
+    }
+
+    /**
+     * @Route("/events/{id}",
+     * name="show_event_rest",
+     * methods={"GET"},
+     * requirements={
+     *     "id"="\d+",
+     *  "_format": "json"
+     * },
+     * )
+     */
+    public function showEventRest(Event $event)
+    {
+        return new Response(json_encode($event->getDescription()));
+
+    }
+
+    /**
+     * @Route("/events/{id}",
+     * name="delete_event_rest",
+     * methods={"DELETE"},
+     * requirements={
+     *     "id"="\d+",
+     *  "_format": "json"
+     * },
+     * )
+     */
+    public function deleteEventRest(Event $event)
+    {
+        $this->removeEntity($event);
+        return new Response();
+
     }
 }
